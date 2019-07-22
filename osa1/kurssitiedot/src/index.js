@@ -3,13 +3,24 @@ import ReactDOM from 'react-dom'
 
 const App = () => {
 
-  const pageHeader = 'Kurssitiedot'
-  const part_1_title = 'boo'
-  const part_2_title = 'boo2'
-  const part_3_title = 'boo3'
-  const part_1_count = 1
-  const part_2_count = 2
-  const part_3_count = 3
+
+  const course = {
+    pageHeader: 'Kurssitiedot',
+    parts: [
+      {
+        title: "Reaktin perusteet",
+        exercises: 10
+      },
+      {
+        title: "Propsit tiedon välityksessä",
+        exercises: 10
+      },
+      {
+        title: "Komponentin tila",
+        exercises: 10
+      }   
+    ]
+  }
 
   const Header = (props) => {
     return (
@@ -19,31 +30,42 @@ const App = () => {
 
   const ContentPart = (props) => {
     return (
-        <p><h3>Kurssin osa: {props.name}, Tehtävien lkm: {props.count}</h3></p>
+      <h3><p>Kurssin osa: {props.name}, Tehtävien lkm: {props.count}</p></h3>
     )    
   }
 
-  const Content = (props) => {
-    return (
-      <div>
-        <ContentPart name = {part_1_title} count = {part_1_count} />
-        <ContentPart name = {part_2_title} count = {part_2_count} />
-        <ContentPart name = {part_3_title} count = {part_3_count} />
-      </div>
+  const Content = ({parts}) => {
+    
+    return parts.map(part => (
+      <li key = {part.title}> 
+        {/* 
+        !!! Without key we get this error in console: "Each child in a list should have a unique "key" prop"
+        This was explained here -> "https://reactjs.org/docs/lists-and-keys.html#keys" 
+          --> Key should be provided for list items. 
+              Keys help React identify which items have changed, are added, or are removed. 
+              Key has to be Unique among siblings.          
+        */}
+        <ContentPart name = {part.title} count = {part.exercises} />
+      </li>
     )
+    )
+
   }
 
-  const Total = (props) => {
+  const Total = ({parts}) => {
+
+    let exerciseTotalCount = parts[0].exercises + parts[1].exercises + parts[2].exercises
+    
     return (
-      <div><p>Tehtävien lkm yhteensä: {part_1_count + part_2_count + part_3_count}</p></div>
+      <div>Tehtävien lukumäärä yhteensä: {exerciseTotalCount}</div>
     )
   }
 
   return (
     <div>
-      <Header pageHeader = {pageHeader} />
-      <Content />
-      <Total />
+      <Header pageHeader = {course.pageHeader} />
+      <ul><Content parts = {course.parts} /></ul>
+      <Total parts = {course.parts} />
     </div>
   )
 }
