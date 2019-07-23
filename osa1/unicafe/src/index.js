@@ -1,44 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Statistics = (props) => {
-
-    const totalFeedback = () => { return props.good + props.neutral + props.bad }
-    const averageFeedback = () => { return props.good + (props.bad * -1) }
-    const percentageGood = () => { 
-        if (props.good < 1) return 0
-        else return props.good / totalFeedback() 
-    }
-
-    const Statistic = (props) => {
-        return (
-            <tr>
-                <td>{props.text}</td>
-                <td>{props.value}</td>
-            </tr>
-        )
-    }
-
-    if (totalFeedback() < 1) 
-        return (<div><h2>No feedback received yet. Give feedback using buttons.</h2></div>)  
-    else 
-        return (
-        <div>
-            <div><h2>{props.title}</h2></div>
-            <table>
-                <tbody>
-                    <Statistic text = '"Good" Times:' value = {props.good} />
-                    <Statistic text = '"Neutral" Times:' value = {props.neutral} />
-                    <Statistic text = '"Bad" Times:' value = {props.bad} />
-                    <Statistic text = 'Total count:' value = {totalFeedback()} />           
-                    <Statistic text = 'Average (good(+1),neutral(0),bad(-1)):' value = {averageFeedback()} />           
-                    <Statistic text = 'Percentage ("Good"):' value = {percentageGood()} />
-                </tbody>
-            </table>
-        </div>
-    )
-}
-
 const App = () => {
 
     let feedbackTitle = "Feedback"
@@ -75,6 +37,44 @@ const App = () => {
             <Statistics title = {statisticsTitle} good = {good} neutral = {neutral} bad = {bad} />
         </div>
   )
+}
+
+const Statistics = (props) => {
+
+    const totalFeedback = () => { return props.good + props.neutral + props.bad }
+    const averageFeedback = () => { return props.good + (props.bad * -1) }
+    const percentageGood = () => { 
+        if (props.good < 1) return 0
+        else return props.good / totalFeedback() 
+    }
+
+    const Statistic = (props) => {
+        return (
+            <tr>
+                <td>{props.text}</td>
+                <td>{props.value}</td>
+            </tr>
+        )
+    }
+
+    if (totalFeedback() < 1) 
+        return (<div><h2>No feedback received yet. Give feedback using buttons.</h2></div>)  
+    else 
+        return (
+        <div>
+            <div><h2>{props.title}</h2></div>
+            <table>
+                <tbody>
+                    <Statistic text = '"Good" Times:' value = {props.good} />
+                    <Statistic text = '"Neutral" Times:' value = {props.neutral} />
+                    <Statistic text = '"Bad" Times:' value = {props.bad} />
+                    <Statistic text = 'Total count:' value = {totalFeedback()} />           
+                    <Statistic text = 'Average (good(+1),neutral(0),bad(-1)):' value = {averageFeedback()} />           
+                    <Statistic text = 'Percentage ("Good"):' value = {percentageGood()} />
+                </tbody>
+            </table>
+        </div>
+    )
 }
 
 ReactDOM.render( <App />, document.getElementById('root') )
