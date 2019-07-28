@@ -3,18 +3,41 @@ import ReactDOM from 'react-dom'
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
-  
+
+  const points = new Array(props.anecdotes.length).fill(0)
+
+
+  points[0] += 1
+  console.log(points)
+
+
   return (
     <Anecdote list={props.anecdotes} anecdote={selected} setAnecdote={setSelected} />
   )
 }
+const Vote = (props) => {
+
+  return (
+    <p></p>
+  )
+
+}
 
 const Anecdote = (props) => {
 
+  //const setToValue = (value) => setCounter(value)
+
   const selectAnecdote = (props) => {
     let rand = props.list[Math.floor(Math.random() * props.list.length)]
-    props.setAnecdote(rand)
 
+  // Component states should not be modified directly.
+  //    First we creat a copy of the current state 
+  //    & then modify the copied values
+  //    & finally set new state
+
+    let copy = props.selected
+    copy = rand
+    props.setAnecdote(copy)
   }
 
   return (
