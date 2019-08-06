@@ -2,48 +2,51 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const App = (props) => {
-  const [selected, setSelected] = useState(0)
 
-  const points = new Array(props.anecdotes.length).fill(0)
-
-
-  points[0] += 1
-  console.log(points)
-
+  const [selected, setSelected] = useState("Click to return random anecdote")
+  const [randomItem, setValue]  = useState(0)
+  const pointsArray = new Array(props.anecdotes.length).fill(0)
+  const [points, setPoints] = useState(pointsArray)
 
   return (
-    <Anecdote list={props.anecdotes} anecdote={selected} setAnecdote={setSelected} />
+      <div>
+        <Anecdote list={anecdotes} anecdote={selected} setAnecdote={setSelected} selectedValue={randomItem} setValue={setValue} points={points} />
+        <Vote selectedValue={randomItem} points={points} setValue={setPoints}/>
+      </div>
   )
 }
+
 const Vote = (props) => {
 
-  return (
-    <p></p>
-  )
-
-}
-
-const Anecdote = (props) => {
-
-  //const setToValue = (value) => setCounter(value)
-
-  const selectAnecdote = (props) => {
-    let rand = props.list[Math.floor(Math.random() * props.list.length)]
-
-  // Component states should not be modified directly.
-  //    First we creat a copy of the current state 
-  //    & then modify the copied values
-  //    & finally set new state
-
-    let copy = props.selected
-    copy = rand
-    props.setAnecdote(copy)
+  const voteAnecdote = () => {
+    const copy = [...props.points]
+    copy[props.selectedValue] += 1
+    props.setValue(copy)
   }
 
   return (
     <div>
-      <p>{props.anecdote}</p>
-      <button onClick={() => selectAnecdote(props)}>
+      <button onClick={voteAnecdote}>Vote this anecdote</button>
+    </div>
+  )
+}
+const Anecdote = (props) => {
+
+  const selectAnecdote = () => {
+    const randomNumber = Math.floor(Math.random() * props.list.length)
+    const randomAnecdote = props.list[randomNumber]
+    props.setValue(randomNumber)
+    props.setAnecdote(randomAnecdote)
+  }
+
+  const getVotes = () => {
+    return props.points[props.selectedValue]
+  }
+
+  return (
+    <div>
+      <p>{props.anecdote} Has been voted {getVotes()} times</p>
+      <button onClick={selectAnecdote}>
         <h3>Random Anecdote</h3>
       </button>
     </div>
@@ -58,6 +61,7 @@ const anecdotes = [
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
+
 
 ReactDOM.render(
   <App anecdotes={anecdotes} />,
