@@ -11,8 +11,25 @@ const App = (props) => {
   return (
       <div>
         <Anecdote list={anecdotes} anecdote={selected} setAnecdote={setSelected} selectedValue={randomItem} setValue={setValue} points={points} />
-        <Vote selectedValue={randomItem} points={points} setValue={setPoints}/>
+        <Vote selectedValue={randomItem} points={points} setValue={setPoints} />
+        <MostVotes points={points} list={anecdotes} />
       </div>
+  )
+}
+const MostVotes = (props) => {
+    console.log(props.points)
+    //const max = Math.max.apply(Math, props.points)
+    const max = props.points.indexOf(Math.max(...props.points))
+    console.log(max)
+    const mostvotes = props.list[max]
+    console.log(mostvotes)
+  
+  return (
+    <div>
+      <h2><p>Anecdote with most votes</p></h2>
+      <p>{mostvotes}</p>
+    </div>
+
   )
 }
 
