@@ -3,33 +3,40 @@ import ReactDOM from 'react-dom'
 
 const App = (props) => {
 
-  const [selected, setSelected] = useState("Click to return random anecdote")
-  const [randomItem, setValue]  = useState(0)
+  const [selectedAnecdote, setSelected] = useState("Click to return random anecdote")
+  const [randomValue, setRandomValue]  = useState(0)
   const pointsArray = new Array(props.anecdotes.length).fill(0)
   const [points, setPoints] = useState(pointsArray)
 
   return (
       <div>
-        <Anecdote list={anecdotes} anecdote={selected} setAnecdote={setSelected} selectedValue={randomItem} setValue={setValue} points={points} />
-        <Vote selectedValue={randomItem} points={points} setValue={setPoints} />
+        <Anecdote anecdoteArray={props.anecdotes} selectedAnecdote={selectedAnecdote} setAnecdote={setSelected} setRandomValue={setRandomValue} randomValue={randomValue} points={points} />
+        <Vote selectedValue={randomValue} points={points} setPoints={setPoints} />
         <MostVotes points={points} list={anecdotes} />
       </div>
   )
 }
-const MostVotes = (props) => {
-    console.log(props.points)
-    //const max = Math.max.apply(Math, props.points)
-    const max = props.points.indexOf(Math.max(...props.points))
-    console.log(max)
-    const mostvotes = props.list[max]
-    console.log(mostvotes)
-  
+
+const Anecdote = (props) => {
+
+  const selectAnecdote = () => {
+    const randomNumber = Math.floor(Math.random() * props.anecdoteArray.length)
+    const randomAnecdote = props.anecdoteArray[randomNumber]
+    props.setRandomValue(randomNumber)
+    props.setAnecdote(randomAnecdote)
+  }
+
+  const getVotes = () => {
+    return props.points[props.randomValue]
+  }
+
   return (
     <div>
-      <h2><p>Anecdote with most votes</p></h2>
-      <p>{mostvotes}</p>
+      <p>{props.selectedAnecdote} Has been voted {getVotes()} times</p>
+      <button onClick={selectAnecdote}>
+        <h3>Random Anecdote</h3>
+      </button>
     </div>
-
   )
 }
 
@@ -38,7 +45,7 @@ const Vote = (props) => {
   const voteAnecdote = () => {
     const copy = [...props.points]
     copy[props.selectedValue] += 1
-    props.setValue(copy)
+    props.setPoints(copy)
   }
 
   return (
@@ -47,26 +54,18 @@ const Vote = (props) => {
     </div>
   )
 }
-const Anecdote = (props) => {
 
-  const selectAnecdote = () => {
-    const randomNumber = Math.floor(Math.random() * props.list.length)
-    const randomAnecdote = props.list[randomNumber]
-    props.setValue(randomNumber)
-    props.setAnecdote(randomAnecdote)
-  }
+const MostVotes = (props) => {
 
-  const getVotes = () => {
-    return props.points[props.selectedValue]
-  }
+  const max = props.points.indexOf(Math.max(...props.points))
+  const mostvotes = props.list[max]
 
   return (
     <div>
-      <p>{props.anecdote} Has been voted {getVotes()} times</p>
-      <button onClick={selectAnecdote}>
-        <h3>Random Anecdote</h3>
-      </button>
+      <h2><p>Anecdote with most votes</p></h2>
+      <p>{mostvotes}</p>
     </div>
+
   )
 }
 
