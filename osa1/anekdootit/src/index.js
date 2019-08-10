@@ -59,11 +59,13 @@ const MostVotes = (props) => {
 
   const max = props.points.indexOf(Math.max(...props.points))
   const mostvotes = props.list[max]
+  const votesTotal = props.points[max]
 
   return (
     <div>
       <h2><p>Anecdote with most votes</p></h2>
       <p>{mostvotes}</p>
+      <p>Has {votesTotal} votes!</p>
     </div>
 
   )
