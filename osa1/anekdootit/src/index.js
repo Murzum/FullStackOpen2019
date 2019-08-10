@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 const App = (props) => {
 
-  const [selectedAnecdote, setSelected] = useState("Click to return random anecdote")
+  const [selectedAnecdote, setSelected] = useState(props.anecdotes[0])
   const [randomValue, setRandomValue]  = useState(0)
   const pointsArray = new Array(props.anecdotes.length).fill(0)
   const [points, setPoints] = useState(pointsArray)
@@ -32,7 +32,7 @@ const Anecdote = (props) => {
 
   return (
     <div>
-      <p>{props.selectedAnecdote} Has been voted {getVotes()} times</p>
+      <p>{props.selectedAnecdote} >>> Has been voted {getVotes()} times</p>
       <button onClick={selectAnecdote}>
         <h3>Random Anecdote</h3>
       </button>
