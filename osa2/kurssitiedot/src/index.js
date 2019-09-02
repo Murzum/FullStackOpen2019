@@ -2,25 +2,45 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 const App = () => {
-
-
   const course = {
-    pageHeader: 'Kurssitiedot',
+    name: 'Half Stack application development',
     parts: [
       {
-        title: "Reaktin perusteet",
-        exercises: 10
+        name: 'Fundamentals of React',
+        exercises: 10,
+        id: 1
       },
       {
-        title: "Propsit tiedon välityksessä",
-        exercises: 10
+        name: 'Using props to pass data',
+        exercises: 7,
+        id: 2
       },
       {
-        title: "Komponentin tila",
-        exercises: 10
-      }   
+        name: 'State of a component',
+        exercises: 14,
+        id: 3
+      }
     ]
   }
+
+  return (
+    <div>
+      <Course course={course} />
+    </div>
+  )
+}
+
+const Course = (props) => {
+
+  return (
+    <div>
+      <Header pageHeader = {props.course.name} />
+      <ul><Content parts = {props.course.parts} /></ul>
+      <Total parts = {props.course.parts} />
+    </div>
+  )
+
+}
 
   const Header = (props) => {
     return (
@@ -28,46 +48,37 @@ const App = () => {
     )
   }
 
+  const Content = (props) => {
+    
+    return props.parts.map(part => (
+      <li key = {part.id}> 
+        <ContentPart name = {part.name} count = {part.exercises} />
+      </li>
+      )
+    )
+
+  }
+
   const ContentPart = (props) => {
+
     return (
       <h3><p>Kurssin osa: {props.name}, Tehtävien lkm: {props.count}</p></h3>
     )    
   }
 
-  const Content = ({parts}) => {
-    
-    return parts.map(part => (
-      <li key = {part.title}> 
-        {/* 
-        !!! Without key we get this error in console: "Each child in a list should have a unique "key" prop"
-        This was explained here -> "https://reactjs.org/docs/lists-and-keys.html#keys" 
-          --> Key should be provided for list items. 
-              Keys help React identify which items have changed, are added, or are removed. 
-              Key has to be Unique among siblings.          
-        */}
-        <ContentPart name = {part.title} count = {part.exercises} />
-      </li>
-    )
-    )
+  const Total = (props) => {
+  
+    const exerciseTotalCount = (props) => {
 
-  }
+      for (part in props.parts) {
+        console.log(part)
+      }
+      
+      return props.parts[0].exercises
+    }
 
-  const Total = ({parts}) => {
-
-    let exerciseTotalCount = parts[0].exercises + parts[1].exercises + parts[2].exercises
-    
     return (
-      <div>Tehtävien lukumäärä yhteensä: {exerciseTotalCount}</div>
+      <div>Tehtävien lukumäärä yhteensä: {exerciseTotalCount()}</div>
     )
   }
-
-  return (
-    <div>
-      <Header pageHeader = {course.pageHeader} />
-      <ul><Content parts = {course.parts} /></ul>
-      <Total parts = {course.parts} />
-    </div>
-  )
-}
-
 ReactDOM.render(<App />, document.getElementById('root'))
