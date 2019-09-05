@@ -68,14 +68,29 @@ const Course = (props) => {
 
   const Total = (props) => {
   
-    const exerciseTotalCount = (props) => {
+    const array = []
+    //const json = JSON.parse(props.parts)
+    console.log(array)
 
-      for (part in props.parts) {
-        console.log(part)
-      }
-      
-      return props.parts[0].exercises
+    const data = props.parts
+
+    console.log(data)
+
+    const exerciseTotalCount = () => {
+
+      data.forEach(Element => {array.push(Element.exercises)})
+      const reducer = (accumulator, currentValue) => accumulator + currentValue
+      return array.reduce(reducer)
+      //return data.forEach(Element => {array.push(Element.exercises)})
     }
+
+    console.log(array)
+
+    //const exerciseTotalCount = 666
+    //const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    //const exerciseTotalCount = (props) => { 
+    //  
+    //}
 
     return (
       <div>Tehtävien lukumäärä yhteensä: {exerciseTotalCount()}</div>
