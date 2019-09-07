@@ -23,15 +23,10 @@ const App = () => {
     ]
   }
 
-  return (
-    <div>
-      <Course course={course} />
-    </div>
-  )
+  return ( <div> <Course course={course} /> </div> )
 }
 
 const Course = (props) => {
-
   return (
     <div>
       <Header pageHeader = {props.course.name} />
@@ -39,61 +34,33 @@ const Course = (props) => {
       <Total parts = {props.course.parts} />
     </div>
   )
-
 }
 
-  const Header = (props) => {
-    return (
-        <h1>{props.pageHeader}</h1>
+const Header = (props) => {
+  return ( <h1>{props.pageHeader}</h1> )
+}
+
+const Content = (props) => {   
+  return props.parts.map(part => (
+    <li key = {part.id}> 
+      <ContentPart name = {part.name} count = {part.exercises} />
+    </li>
     )
-  }
+  )
+}
 
-  const Content = (props) => {
-    
-    return props.parts.map(part => (
-      <li key = {part.id}> 
-        <ContentPart name = {part.name} count = {part.exercises} />
-      </li>
-      )
-    )
+const ContentPart = (props) => {
+  return ( <h3><p>Kurssin osa: {props.name}, Tehtävien lkm: {props.count}</p></h3> )    
+}
 
-  }
+const Total = (props) => {
+  return ( <div>Tehtävien lukumäärä yhteensä: {countSum(props)}</div> )
+}
 
-  const ContentPart = (props) => {
+const countSum = (props) => {
+  const array = []
+  props.parts.forEach(Element => {array.push(Element.exercises)})
+  return array.reduce((accumulator, currentValue) => accumulator + currentValue)
+}
 
-    return (
-      <h3><p>Kurssin osa: {props.name}, Tehtävien lkm: {props.count}</p></h3>
-    )    
-  }
-
-  const Total = (props) => {
-  
-    const array = []
-    //const json = JSON.parse(props.parts)
-    console.log(array)
-
-    const data = props.parts
-
-    console.log(data)
-
-    const exerciseTotalCount = () => {
-
-      data.forEach(Element => {array.push(Element.exercises)})
-      const reducer = (accumulator, currentValue) => accumulator + currentValue
-      return array.reduce(reducer)
-      //return data.forEach(Element => {array.push(Element.exercises)})
-    }
-
-    console.log(array)
-
-    //const exerciseTotalCount = 666
-    //const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    //const exerciseTotalCount = (props) => { 
-    //  
-    //}
-
-    return (
-      <div>Tehtävien lukumäärä yhteensä: {exerciseTotalCount()}</div>
-    )
-  }
 ReactDOM.render(<App />, document.getElementById('root'))
