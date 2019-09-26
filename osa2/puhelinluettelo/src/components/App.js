@@ -14,14 +14,25 @@ const App = () => {
       />
     )
     const handleSubmit = (event) => {
-        event.preventDefault()
+      event.preventDefault()
 
-        const rowObject = {
-            id: newName,
-            name: newName
-        }
+      const rowObject = {
+        id: newName,
+        name: newName
+      }
+
+      const checkName = (props) => {
+        return newName === props.name
+      }
+
+      if (persons.some(checkName)) {
+        window.alert(`Nimi ${newName} on jo listassa. Ei voi lisätä!`)
+      }
+      else {
         setPersons(persons.concat(rowObject))
         setNewName('')
+      }
+
     }
     
     const handleNameChange = (event) => {
