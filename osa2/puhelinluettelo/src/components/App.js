@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import Person from './Person.js'
+import DisplayPhonebook from './DisplayPhonebook.js'
+import DisplayFilters from './DisplayFilters.js'
+import DisplayFormNewNumber from './DisplayFormNewNumber.js'
 
 const App = () => {
     const [ persons, setPersons ] = useState([
@@ -28,13 +30,6 @@ const App = () => {
 
     const filteredNumbers = persons.filter(existsInArray({newFilter}))
     
-    const rows = () => filteredNumbers.map(person =>
-      <Person
-        key={person.id}
-        name={person.name}
-        number={person.number}
-      />
-    )
     const handleSubmit = (event) => {
       event.preventDefault()
 
@@ -61,17 +56,24 @@ const App = () => {
     return (
       <div>
         <h2>Phonebook</h2>
-        <div>Filter phonebook using: <input value={newFilter} onChange={handleFilterChange}/></div>
-        <div><h3>Add new:</h3></div>
-        <form onSubmit={handleSubmit}>
-          <div>Name: <input value={newName} onChange={handleNameChange}/></div>
-          <div>Number: <input value={newNumber} onChange={handleNumberChange}/></div>
-          <div> <button type="submit">add</button></div>
-        </form>
+          <DisplayFilters 
+            newFilter={newFilter} 
+            handleFilterChange={handleFilterChange}
+          />
+        <h3>Add new:</h3>
+          <DisplayFormNewNumber 
+            handleSubmit={handleSubmit} 
+            handleNameChange={handleNameChange} 
+            handleNumberChange={handleNumberChange} 
+            newName={newName}
+            newNumber={newNumber}
+          />
         <h2>Numbers</h2>
         <ul>
-        {rows()}
-      </ul>
+          <DisplayPhonebook 
+            list={filteredNumbers} 
+          />
+        </ul>
       </div>
     )
   }
