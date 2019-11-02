@@ -1,7 +1,7 @@
 import React from 'react'
 import Country from './Country.js'
 
-const DisplayCountries = ({countries}) => {
+const DisplayCountries = ({countries, setNewSearchString}) => {
 
     if (countries.length > 10) {
         return "Too many countries found. Insert more letters."
@@ -22,6 +22,7 @@ const DisplayCountries = ({countries}) => {
                 key={country.name}
                 country={country}
                 detailLevel='onlyname'
+                setNewSearchString={setNewSearchString}
             />
         )       
         return (

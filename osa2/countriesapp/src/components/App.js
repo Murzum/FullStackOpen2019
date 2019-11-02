@@ -16,6 +16,7 @@ const App = () => {
     }, [])
 
     const handleInputChange = (event) => {
+      console.log(event.target.value)
         setNewSearchString(event.target.value)  
     }
 
@@ -26,8 +27,8 @@ const App = () => {
 
     return (
       <div>
-        <DisplaySearchForm handleInputChange={handleInputChange} newSearchString={newSearchString}/>
-        <DisplayCountries countries={filteredCountries}/>
+        <DisplaySearchForm handleInputChange={handleInputChange} newSearchString={newSearchString} />
+        <DisplayCountries countries={filteredCountries} setNewSearchString={setNewSearchString}/>
       </div>
     )
   }

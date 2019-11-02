@@ -1,9 +1,19 @@
 import React from 'react'
 
-const Country = ({country,detailLevel}) => {
+const Country = ({country,detailLevel,setNewSearchString}) => {
+
     if (detailLevel === 'onlyname') {
+
+        const handleButtonClick = (props) => {
+            console.log(props)
+            setNewSearchString(props)
+        }
+
         return (
-            <li>{country.name}</li>
+            <p>
+                {country.name}
+                <button onClick={() => handleButtonClick(country.name)} key={country.name}>Show details</button>          
+            </p>
         )
     }
     else if (detailLevel === 'full') {
@@ -22,7 +32,7 @@ const Country = ({country,detailLevel}) => {
                     {languageslist}
                 </ul>
                 <h2>Country flag</h2>
-                <img src={country.flag} height="100" width="200" alt="Country flag"></img>
+                <img src={country.flag} crossOrigin="anonymous" height="100" width="auto" border="1" alt="Country flag"></img>
             </div>
         )
     }
