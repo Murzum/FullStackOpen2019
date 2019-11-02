@@ -1,11 +1,11 @@
-import React from 'react'
+import React  from 'react'
+import DisplayCapitalWeather from './DisplayCapitalWeather.js'
 
-const Country = ({country,detailLevel,setNewSearchString}) => {
+const Country = ({country,detailLevel,setNewSearchString}) => {    
 
     if (detailLevel === 'onlyname') {
 
         const handleButtonClick = (props) => {
-            console.log(props)
             setNewSearchString(props)
         }
 
@@ -33,6 +33,7 @@ const Country = ({country,detailLevel,setNewSearchString}) => {
                 </ul>
                 <h2>Country flag</h2>
                 <img src={country.flag} crossOrigin="anonymous" height="100" width="auto" border="1" alt="Country flag"></img>
+                <DisplayCapitalWeather capital={country.capital} />
             </div>
         )
     }

@@ -5,7 +5,7 @@ import DisplaySearchForm from './DisplaySearchForm.js'
 
 const App = () => {
     const [ countries, setCountries ] = useState([]) 
-    const [ newSearchString, setNewSearchString ] = useState('')
+    const [ newSearchString, setNewSearchString ] = useState('') 
     
     useEffect(() => {
       axios
@@ -28,7 +28,7 @@ const App = () => {
     return (
       <div>
         <DisplaySearchForm handleInputChange={handleInputChange} newSearchString={newSearchString} />
-        <DisplayCountries countries={filteredCountries} setNewSearchString={setNewSearchString}/>
+        <DisplayCountries countries={filteredCountries} setNewSearchString={setNewSearchString} />
       </div>
     )
   }
