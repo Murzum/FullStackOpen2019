@@ -38,7 +38,6 @@ const App = () => {
       event.preventDefault()
 
       const rowObject = {
-        id: newName,
         name: newName,
         number: newNumber
       }
@@ -51,7 +50,12 @@ const App = () => {
         window.alert(`Name ${newName} already exists. Name not added!`)
       }
       else {
-        setPersons(persons.concat(rowObject))
+        axios
+        .post('http://localhost:3001/persons', rowObject)
+        .then(response => {
+          console.log(response)
+          setPersons(persons.concat(rowObject))
+        })
         setNewName('')
         setNewNumber('')
       }
@@ -72,13 +76,11 @@ const App = () => {
             newName={newName}
             newNumber={newNumber}
           />
-        <h2>Numbers</h2>
-        <ul>
+          <h2>Numbers</h2>        
           <DisplayPhonebook 
-            list={filteredNumbers} 
+            numberlist={filteredNumbers}            
           />
-        </ul>
-      </div>
+    </div>
     )
   }
 
