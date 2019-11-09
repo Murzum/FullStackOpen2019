@@ -3,6 +3,7 @@ import axios from 'axios'
 import DisplayPhonebook from './DisplayPhonebook.js'
 import DisplayFilters from './DisplayFilters.js'
 import DisplayFormNewNumber from './DisplayFormNewNumber.js'
+import numbersService from '../services/numbers'
 
 const App = () => {
     const [ persons, setPersons ] = useState([]) 
@@ -11,11 +12,18 @@ const App = () => {
     const [ newFilter, setNewFilter ] = useState('')
     
     useEffect(() => {
+      numbersService
+        .getAll()
+        .then(response => {
+          setPersons(response.data)
+      })
+      /*
       axios
         .get('http://localhost:3001/persons')
         .then(response => {
           setPersons(response.data)
         })
+      */
     }, [])
 
     const handleNameChange = (event) => {
