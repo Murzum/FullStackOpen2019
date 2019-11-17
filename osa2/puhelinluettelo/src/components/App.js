@@ -14,16 +14,9 @@ const App = () => {
     useEffect(() => {
       numbersService
         .getAll()
-        .then(response => {
-          setPersons(response.data)
+        .then(persons => {
+          setPersons(persons)
       })
-      /*
-      axios
-        .get('http://localhost:3001/persons')
-        .then(response => {
-          setPersons(response.data)
-        })
-      */
     }, [])
 
     const handleNameChange = (event) => {
@@ -60,8 +53,7 @@ const App = () => {
       else {
         axios
         .post('http://localhost:3001/persons', rowObject)
-        .then(response => {
-          console.log(response)
+        .then(response => {          
           setPersons(persons.concat(rowObject))
         })
         setNewName('')
@@ -86,7 +78,9 @@ const App = () => {
           />
           <h2>Numbers</h2>        
           <DisplayPhonebook 
-            numberlist={filteredNumbers}            
+            numberlist={filteredNumbers}  
+            setPersons={setPersons}
+            persons={persons}      
           />
     </div>
     )
