@@ -57,15 +57,12 @@ const App = () => {
         
         if (window.confirm(`Name ${newName} already exists. Replace number with new one?`)) {
           numbersService.updatePerson(rowId(newName).id, rowObject)
-
-          useEffect(() => {
-            numbersService
-              .getAll()
-              .then(persons => {
-                setPersons(persons)
+          .then(response => {
+            numbersService.getAll()
+            .then(persons => {
+            setPersons(persons)
             })
-          }, [])
-          //.getAll()
+          })
         }
       }
       else {
