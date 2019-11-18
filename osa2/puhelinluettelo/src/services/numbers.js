@@ -14,15 +14,14 @@ const delPerson = (id) => {
 const create = newObject => {
   return axios.post(baseUrl, newObject)
 }
-
-const update = (id, newObject) => {
+*/
+const updatePerson = (id, newObject) => {
   return axios.put(`${baseUrl}/${id}`, newObject)
 }
-*/
 
 export default { 
   getAll: getAll,
-  delPerson: delPerson
+  delPerson: delPerson,
+  updatePerson: updatePerson
   //create: create, 
-  //update: update 
 }

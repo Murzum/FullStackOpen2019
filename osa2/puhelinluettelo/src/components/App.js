@@ -30,7 +30,7 @@ const App = () => {
     }
 
     const existsInArray = (props) => {
-      return person => person.name.includes(props.newFilter)
+        return person => person.name.includes(props.newFilter)
     }
 
     const filteredNumbers = persons.filter(existsInArray({newFilter}))
@@ -46,9 +46,27 @@ const App = () => {
       const checkName = (props) => {
         return newName === props.name
       }
+     
+      const rowId = (props) => {
+        console.log(props)
+        return persons.find(element => element.name === props)
+      }
+
 
       if (persons.some(checkName)) {
-        window.alert(`Name ${newName} already exists. Name not added!`)
+        
+        if (window.confirm(`Name ${newName} already exists. Replace number with new one?`)) {
+          numbersService.updatePerson(rowId(newName).id, rowObject)
+
+          useEffect(() => {
+            numbersService
+              .getAll()
+              .then(persons => {
+                setPersons(persons)
+            })
+          }, [])
+          //.getAll()
+        }
       }
       else {
         axios
