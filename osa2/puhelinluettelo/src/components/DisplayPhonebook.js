@@ -1,7 +1,7 @@
 import React from 'react'
 import Person from './Person.js'
 
-const DisplayPhonebook = ({numberlist,setPersons,persons}) => {
+const DisplayPhonebook = ({numberlist,setPersons,persons,setNotificationMessage}) => {
     
     const rows = () => numberlist.map((person) =>
           <Person
@@ -11,6 +11,7 @@ const DisplayPhonebook = ({numberlist,setPersons,persons}) => {
             number={person.number}
             setPersons={setPersons}
             persons={persons}
+            setNotificationMessage={setNotificationMessage}
           />
       )
       

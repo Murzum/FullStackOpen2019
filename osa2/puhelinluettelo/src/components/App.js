@@ -36,6 +36,28 @@ const App = () => {
 
     const filteredNumbers = persons.filter(existsInArray({newFilter}))
     
+    const rowId = (props) => {
+      return persons.find(element => element.name === props)
+    }
+
+    const changePersonData = (rowObject) => {
+      const personOb = rowId(rowObject.name)
+      const changedPerson = {...personOb, number: rowObject.number}
+
+      numbersService
+      .updatePerson(changedPerson.id, rowObject)
+      .then(response => {
+        if (response.request.status === 200) {      
+          setPersons(persons.map(person => person.id !== changedPerson.id ? person: response.data))
+          setNotificationMessage( { messageType: 'success', message: 'Number was updated successfully!'} )
+        }  
+      })
+      .catch(error => {
+          console.log(error.message)
+          setNotificationMessage( { messageType: 'error', message: 'Could not update! --> ' + error.message } )
+      })
+
+    }
     const handleSubmit = (event) => {
       event.preventDefault()
   
@@ -48,28 +70,11 @@ const App = () => {
         return newName === props.name
       }
      
-      const rowId = (props) => {
-        console.log(props)
-        return persons.find(element => element.name === props)
-      }
-  
       if (persons.some(checkName)) {
         
         if (window.confirm(`Name ${newName} already exists. Replace number with new one?`)) {
-          numbersService
-          .updatePerson(rowId(newName).id, rowObject)
-          .then(response => {
-            if (response.request.status === 200) {
-              setNotificationMessage( { messageType: 'success', message: 'Number was updated successfully!'} )
-              numbersService.getAll()
-              .then(persons => {
-              setPersons(persons)
-              })
-            }  
-          })
-          .catch(error => {
-              setNotificationMessage( { messageType: 'error', message: 'Could not update!'} )
-          })     
+          console.log(rowObject)
+          changePersonData(rowObject)
         }
         else {
           setNotificationMessage( { messageType: 'neutral', message: 'Update canceled by you...'} ) 
@@ -80,7 +85,7 @@ const App = () => {
         .createPerson(rowObject)
         .then(response => {              
           if (response.request.status === 201) {
-            setPersons(persons.concat(rowObject))
+            setPersons(persons.concat(response.data))
             setNotificationMessage( {messageType: 'success', message: 'New number added successfully'} )
             setNewName('')
             setNewNumber('')
@@ -95,24 +100,25 @@ const App = () => {
 
         <Notification notificationMessage={notificationMessage} />
 
-          <DisplayFilters 
-            newFilter={newFilter} 
-            handleFilterChange={handleFilterChange}
-          />
+        <DisplayFilters 
+          newFilter={newFilter} 
+          handleFilterChange={handleFilterChange}
+        />
         <h3>Add new:</h3>
-          <DisplayFormNewNumber 
-            handleSubmit={handleSubmit} 
-            handleNameChange={handleNameChange} 
-            handleNumberChange={handleNumberChange} 
-            newName={newName}
-            newNumber={newNumber}
-          />
-          <h2>Numbers</h2>        
-          <DisplayPhonebook 
-            numberlist={filteredNumbers}  
-            setPersons={setPersons}
-            persons={persons}      
-          />
+        <DisplayFormNewNumber 
+          handleSubmit={handleSubmit} 
+          handleNameChange={handleNameChange} 
+          handleNumberChange={handleNumberChange} 
+          newName={newName}
+          newNumber={newNumber}
+        />
+        <h2>Numbers</h2>        
+        <DisplayPhonebook 
+          numberlist={filteredNumbers}  
+          setPersons={setPersons}
+          persons={persons}
+          setNotificationMessage={setNotificationMessage}      
+        />
     </div>
     )
   }
